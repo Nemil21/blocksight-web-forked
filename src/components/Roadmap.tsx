@@ -1,8 +1,8 @@
 const milestones = [
-  { q: 'Q3 2025', title: 'Behavioral + payment infrastructure built', desc: 'Multi-chain ingestion and payment processing operational. Models trained across 6+ EVM chains.', status: 'Complete' as const },
-  { q: 'Q4 2025', title: 'Private beta — analytics + payments live', desc: 'Both products deployed to partners. 95% accuracy validated. Payments widget live in KarratShop. 2,000+ waitlist.', status: 'Complete' as const },
-  { q: 'Q1 2026', title: 'Public launch — full platform + Engagent beta', desc: 'Intelligence and payments open. Engagent enters private beta with select protocols. Composable API live.', status: 'Active' as const },
-  { q: 'Q2 2026', title: 'Engagent public launch & enterprise tier', desc: 'Engagent open to all. White-label engagement infrastructure. Institutional analytics. Custom model deployments.', status: 'Planned' as const },
+  { q: 'Q4 2025', title: 'Behavioral + payment infrastructure built', desc: 'Multi-chain ingestion and payment processing operational. Models trained across 6+ EVM chains.', status: 'Complete' as const },
+  { q: 'Q1 2026', title: 'Private beta — analytics + payments live', desc: 'Both products deployed to partners. 95% accuracy validated. Payments widget live in KarratShop. 2,000+ waitlist.', status: 'Complete' as const },
+  { q: 'Q2 2026', title: 'Public launch — full platform + Engagent beta', desc: 'Intelligence and payments open. Engagent enters private beta with select protocols. Composable API live.', status: 'Active' as const },
+  { q: 'Q3 2026', title: 'Engagent public launch & enterprise tier', desc: 'Engagent open to all. White-label engagement infrastructure. Institutional analytics. Custom model deployments.', status: 'Planned' as const },
   { q: 'Q4 2026', title: 'Cross-chain expansion & agent APIs', desc: 'Non-EVM support. Portable behavioral profiles. Engagent agent-to-agent coordination APIs.', status: 'Planned' as const },
 ]
 

@@ -1,3 +1,114 @@
+'use client'
+import { useEffect, useState, useRef } from 'react'
+
+const TOTAL_DURATION = 2500
+
+function easeOutExpo(t: number): number {
+  return t === 1 ? 1 : 1 - Math.pow(2, -10 * t)
+}
+
+function StatsBar() {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [hasAnimated, setHasAnimated] = useState(false)
+  const [values, setValues] = useState({
+    chains: '0+',
+    wallets: '0',
+    accuracy: '0%',
+    latency: '<0.0s'
+  })
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !hasAnimated) {
+          setHasAnimated(true)
+          startAnimation()
+        }
+      },
+      { threshold: 0.3 }
+    )
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [hasAnimated])
+
+  const startAnimation = () => {
+    const startTime = performance.now()
+    
+    const tick = () => {
+      const elapsed = performance.now() - startTime
+      const linearProgress = Math.min(elapsed / TOTAL_DURATION, 1)
+      const easedProgress = easeOutExpo(linearProgress)
+
+      // Chains: 0 to 6
+      const chainsVal = Math.round(easedProgress * 6)
+      
+      // Wallets: 0 to 120M
+      const walletsNum = Math.round(easedProgress * 120000000)
+      let walletsStr: string
+      if (walletsNum < 1000) {
+        walletsStr = `${walletsNum}`
+      } else if (walletsNum < 1000000) {
+        walletsStr = `${Math.floor(walletsNum / 1000)}K+`
+      } else {
+        walletsStr = `${Math.floor(walletsNum / 1000000)}M+`
+      }
+      
+      // Accuracy: 0 to 95
+      const accuracyVal = Math.round(easedProgress * 95)
+      
+      // Latency: 0 to 3 with decimals
+      const latencyVal = easedProgress * 3
+      const latencyStr = linearProgress < 0.85 
+        ? `<${latencyVal.toFixed(1)}s`
+        : `<${Math.round(latencyVal)}s`
+
+      setValues({
+        chains: `${chainsVal}+`,
+        wallets: walletsStr,
+        accuracy: `${accuracyVal}%`,
+        latency: latencyStr
+      })
+
+      if (linearProgress < 1) {
+        requestAnimationFrame(tick)
+      } else {
+        setValues({
+          chains: '6+',
+          wallets: '120M+',
+          accuracy: '95%',
+          latency: '<3s'
+        })
+      }
+    }
+
+    requestAnimationFrame(tick)
+  }
+
+  const stats = [
+    { key: 'chains' as const, label: 'Chains Indexed' },
+    { key: 'wallets' as const, label: 'Wallets Profiled' },
+    { key: 'accuracy' as const, label: 'Predictive Accuracy' },
+    { key: 'latency' as const, label: 'Decision Latency' },
+  ]
+
+  return (
+    <div ref={containerRef} className="grid grid-cols-2 md:grid-cols-4 border border-line rounded-xl overflow-hidden">
+      {stats.map((s, i) => (
+        <div key={i} className="p-7 bg-bg-elevated border-r border-b md:border-b-0 border-line last:border-r-0 [&:nth-child(2)]:border-r-0 md:[&:nth-child(2)]:border-r">
+          <div className="font-mono text-[26px] font-semibold tracking-tight mb-1">
+            {values[s.key]}
+          </div>
+          <div className="text-[11.5px] font-medium text-muted uppercase tracking-wider">{s.label}</div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 export default function Hero() {
   return (
     <section className="relative pt-40 pb-28">
@@ -40,19 +151,7 @@ export default function Hero() {
         </div>
 
         {/* Stats bar */}
-        <div className="grid grid-cols-2 md:grid-cols-4 border border-line rounded-xl overflow-hidden">
-          {[
-            { val: '6+', label: 'Chains Indexed' },
-            { val: '120M+', label: 'Wallets Profiled' },
-            { val: '95%', label: 'Predictive Accuracy' },
-            { val: '<3s', label: 'Decision Latency' },
-          ].map((s, i) => (
-            <div key={i} className="p-7 bg-bg-elevated border-r border-b md:border-b-0 border-line last:border-r-0 [&:nth-child(2)]:border-r-0 md:[&:nth-child(2)]:border-r">
-              <div className="font-mono text-[26px] font-semibold tracking-tight mb-1">{s.val}</div>
-              <div className="text-[11.5px] font-medium text-muted uppercase tracking-wider">{s.label}</div>
-            </div>
-          ))}
-        </div>
+        <StatsBar />
       </div>
     </section>
   )

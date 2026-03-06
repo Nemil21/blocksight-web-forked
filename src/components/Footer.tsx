@@ -42,14 +42,14 @@ export default function Footer() {
               href="https://x.com/blocksight_ai"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-xs text-muted hover:text-body transition-colors"
+              className="flex items-center gap-1.5 text-xs text-violet hover:text-violet/80 transition-colors"
             >
               <TwitterIcon />
               Twitter
             </a>
             <button
               onClick={() => setShowDiscord(true)}
-              className="flex items-center gap-1.5 text-xs text-muted hover:text-body transition-colors"
+              className="flex items-center gap-1.5 text-xs text-violet hover:text-violet/80 transition-colors"
             >
               <DiscordIcon />
               Discord
@@ -58,7 +58,7 @@ export default function Footer() {
               href="https://docs.engagent.nl"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-xs text-muted hover:text-body transition-colors"
+              className="flex items-center gap-1.5 text-xs text-violet hover:text-violet/80 transition-colors"
             >
               <DocsIcon />
               Docs

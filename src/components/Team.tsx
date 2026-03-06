@@ -3,13 +3,13 @@ import Image from 'next/image'
 const team = [
   {
     name: 'Stefano',
-    role: 'Co-Founder · CTO',
+    role: 'Co-Founder · CEO',
     photo: '/StefanoVercesi.png',
     bio: '10 years in software engineering. Multiple bootstrapped products. Three years deep in blockchain development, smart contract architecture, and on-chain payment systems.',
   },
   {
     name: 'Devon Martens',
-    role: 'Co-Founder · CEO',
+    role: 'Co-Founder · CTO',
     photo: '/DevonMartens.webp',
     bio: 'Architected AI-driven trading engines managing $50M+ in liquidity. Led Studio Chain, a Layer 2 for adaptive game economies. Unites blockchain commerce, ML, and decentralized reasoning.',
   },
@@ -17,7 +17,7 @@ const team = [
     name: 'Dr. Petrus C. Martens',
     role: 'Co-Founder · Chief Scientist',
     photo: '/petrusMartens.webp',
-    bio: '20+ years of NASA- and NSF-funded research in machine learning, predictive modeling, and large-scale data infrastructure. Professor at Georgia State University.',
+    bio: '30+ years of NASA- and NSF-funded research in machine learning, predictive modeling, and large-scale data infrastructure. Professor at Georgia State University.',
   },
 ]
 

@@ -1,3 +1,6 @@
+'use client'
+import { useEffect, useRef, useState } from 'react'
+
 const steps = [
   {
     num: 'STEP 01 — SEE',
@@ -19,15 +22,70 @@ const steps = [
   },
 ]
 
-const dotColors = {
-  violet: 'bg-violet border-violet',
-  accent: 'bg-accent border-accent',
-  green: 'bg-green border-green shadow-[0_0_12px_rgba(74,222,128,0.4)]',
-}
-
 export default function TheLoop() {
+  const sectionRef = useRef<HTMLElement>(null)
+  const stepsRef = useRef<HTMLDivElement>(null)
+  const [progress, setProgress] = useState(0)
+  const [activeStep, setActiveStep] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sectionRef.current || !stepsRef.current) return
+
+      const stepsContainer = stepsRef.current
+      const stepsRect = stepsContainer.getBoundingClientRect()
+      const windowHeight = window.innerHeight
+      const windowCenter = windowHeight / 2
+
+      // Start when steps container reaches center of screen
+      // End when bottom of steps container reaches center of screen
+      const stepsTop = stepsRect.top
+      const stepsBottom = stepsRect.bottom
+      const stepsHeight = stepsRect.height
+
+      // Animation starts when top of steps reaches center of viewport
+      const startPoint = stepsTop - windowCenter
+      // Animation ends when bottom of steps reaches center of viewport  
+      const endPoint = stepsBottom - windowCenter
+
+      if (startPoint > 0) {
+        // Steps haven't reached center yet
+        setProgress(0)
+        setActiveStep(-1)
+      } else if (endPoint < 0) {
+        // Steps have passed center
+        setProgress(100)
+        setActiveStep(2)
+      } else {
+        // Currently animating
+        const totalDistance = stepsHeight
+        const traveled = Math.abs(startPoint)
+        const currentProgress = (traveled / totalDistance) * 100
+        setProgress(Math.min(100, Math.max(0, currentProgress)))
+        
+        if (currentProgress < 25) {
+          setActiveStep(0)
+        } else if (currentProgress < 60) {
+          setActiveStep(1)
+        } else {
+          setActiveStep(2)
+        }
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  const getStepColor = (index: number) => {
+    const colors = ['#a78bfa', '#5b9cf5', '#4ade80']
+    return colors[index]
+  }
+
   return (
-    <section className="relative py-28 bg-bg-elevated" id="engagent">
+    <section ref={sectionRef} className="relative py-28 bg-bg-elevated" id="engagent">
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-line-strong to-transparent" />
       <div className="max-w-[1100px] mx-auto px-6 md:px-14">
         <div className="grid md:grid-cols-[1fr_1.1fr] gap-12 md:gap-[72px] items-center">
@@ -39,16 +97,53 @@ export default function TheLoop() {
             </p>
           </div>
 
-          <div className="flex flex-col">
-            {steps.map((step, i) => (
-              <div key={i} className={`relative pl-7 py-6 border-l-2 ${step.color === 'green' ? 'border-green' : 'border-line'}`}>
-                {/* Dot */}
-                <div className={`absolute left-[-7px] top-7 w-3 h-3 rounded-full border-2 ${dotColors[step.color]}`} />
-                <div className="font-mono text-[10px] tracking-[1.5px] text-muted mb-1.5">{step.num}</div>
-                <h4 className="text-[15px] font-semibold mb-1">{step.title}</h4>
-                <p className="text-[13px] text-body leading-relaxed">{step.desc}</p>
-              </div>
-            ))}
+          <div ref={stepsRef} className="relative flex flex-col">
+            {/* Background track */}
+            <div className="absolute left-[5px] top-7 bottom-7 w-[2px] bg-line" />
+            
+            {/* Animated progress line */}
+            <div 
+              className="absolute left-[5px] top-7 w-[2px] transition-all duration-300 ease-out"
+              style={{ 
+                height: `calc(${progress}% * 0.86)`,
+                background: `linear-gradient(to bottom, #a78bfa, #5b9cf5, #4ade80)`
+              }}
+            />
+
+            {steps.map((step, i) => {
+              const isActive = i <= activeStep
+              const isCurrent = i === activeStep
+              
+              return (
+                <div 
+                  key={i} 
+                  className={`relative pl-8 py-6 transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-40'}`}
+                >
+                  {/* Dot */}
+                  <div 
+                    className={`absolute left-0 top-7 w-3 h-3 rounded-full border-2 transition-all duration-500 ${
+                      isActive 
+                        ? isCurrent 
+                          ? 'scale-125' 
+                          : ''
+                        : 'bg-bg-elevated border-line'
+                    }`}
+                    style={isActive ? { 
+                      backgroundColor: getStepColor(i), 
+                      borderColor: getStepColor(i),
+                      boxShadow: isCurrent ? `0 0 16px ${getStepColor(i)}60` : 'none'
+                    } : {}}
+                  />
+                  <div className={`font-mono text-[10px] tracking-[1.5px] mb-1.5 transition-colors duration-500 ${isActive ? 'text-body' : 'text-muted'}`}>
+                    {step.num}
+                  </div>
+                  <h4 className={`text-[15px] font-semibold mb-1 transition-colors duration-500 ${isActive ? 'text-heading' : 'text-body'}`}>
+                    {step.title}
+                  </h4>
+                  <p className="text-[13px] text-body leading-relaxed">{step.desc}</p>
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>
