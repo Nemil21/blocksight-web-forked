@@ -1,20 +1,19 @@
 const rows = [
-  { cap: 'Multi-chain token payments', analytics: '—', payments: '✓', bs: '✓' },
-  { cap: 'Behavioral profiling', analytics: 'Basic', payments: '—', bs: '✓' },
-  { cap: 'Predictive churn modeling', analytics: '—', payments: '—', bs: '✓ 95%' },
-  { cap: 'Next-purchase prediction', analytics: '—', payments: '—', bs: '✓' },
-  { cap: 'On-chain credit scoring', analytics: '—', payments: '—', bs: '✓' },
-  { cap: 'Automated retention actions', analytics: '—', payments: '—', bs: '✓ Engagent' },
-  { cap: 'AI-driven incentive targeting', analytics: '—', payments: '—', bs: '✓ Engagent' },
-  { cap: 'Composable API + NLP queries', analytics: '—', payments: 'Basic', bs: '✓ Full' },
-  { cap: 'Closed-loop intelligence', analytics: '—', payments: '—', bs: '✓' },
+  { cap: 'Behavioral profiling', dune: 'Basic labels', kaito: 'Attention metrics', moonpay: '—', bs: 'Deep behavioral embeddings' },
+  { cap: 'Predictive churn modeling', dune: '—', kaito: '—', moonpay: '—', bs: '95% accuracy, 0.89 AUC-ROC' },
+  { cap: 'Purchase prediction', dune: '—', kaito: '—', moonpay: '—', bs: '✓' },
+  { cap: 'On-chain credit scoring', dune: '—', kaito: '—', moonpay: '—', bs: '✓' },
+  { cap: 'Multi-chain payments', dune: '—', kaito: '—', moonpay: '✓', bs: '✓ (with intelligence)' },
+  { cap: 'Autonomous engagement', dune: '—', kaito: '—', moonpay: '—', bs: '✓ Engagent' },
+  { cap: 'Composable prediction API', dune: '—', kaito: 'Partial', moonpay: '—', bs: '✓ Full' },
+  { cap: 'Closed-loop data flywheel', dune: '—', kaito: '—', moonpay: '—', bs: '✓' },
 ]
 
 function Cell({ val, highlight }: { val: string; highlight?: boolean }) {
   const isCheck = val.startsWith('✓')
   const isDash = val === '—'
   return (
-    <td className={`px-6 py-3.5 text-[13px] border-b border-line bg-bg-elevated ${highlight ? 'text-heading font-medium' : 'text-body'}`}>
+    <td className={`px-5 py-4 text-[13px] border-b border-line bg-bg-elevated ${highlight ? 'text-heading font-medium' : 'text-body'}`}>
       {isCheck ? <span className="text-green">{val}</span> : isDash ? <span className="text-muted">—</span> : val}
     </td>
   )
@@ -37,23 +36,26 @@ export default function Comparison() {
           <table className="w-full border border-line rounded-xl overflow-hidden" style={{ borderCollapse: 'separate', borderSpacing: 0 }}>
             <thead>
               <tr>
-                <th className="px-6 py-3.5 text-left text-[11px] font-semibold uppercase tracking-wider text-muted bg-bg border-b border-line">Capability</th>
-                <th className="px-6 py-3.5 text-left text-[11px] font-semibold uppercase tracking-wider text-muted bg-bg border-b border-line">Analytics Tools</th>
-                <th className="px-6 py-3.5 text-left text-[11px] font-semibold uppercase tracking-wider text-muted bg-bg border-b border-line">Payment Processors</th>
-                <th className="px-6 py-3.5 text-left text-[11px] font-semibold uppercase tracking-wider text-green bg-bg border-b border-line">BlockSight + Engagent</th>
+                <th className="px-5 py-4 text-left text-[12px] font-semibold text-heading bg-bg border-b border-line">Capability</th>
+                <th className="px-5 py-4 text-left text-[12px] font-semibold text-heading bg-bg border-b border-line">Dune / Nansen</th>
+                <th className="px-5 py-4 text-left text-[12px] font-semibold text-heading bg-bg border-b border-line">Kaito</th>
+                <th className="px-5 py-4 text-left text-[12px] font-semibold text-heading bg-bg border-b border-line">Moonpay / Crossmint</th>
+                <th className="px-5 py-4 text-left text-[12px] font-semibold text-green bg-bg border-b border-line">BlockSight + Engagent</th>
               </tr>
             </thead>
             <tbody>
               {rows.map((r, i) => (
                 <tr key={i}>
-                  <td className="px-6 py-3.5 text-[13px] font-semibold text-heading border-b border-line bg-bg-elevated">{r.cap}</td>
-                  <Cell val={r.analytics} />
-                  <Cell val={r.payments} />
+                  <td className="px-5 py-4 text-[13px] font-medium text-heading border-b border-line bg-bg-elevated">{r.cap}</td>
+                  <Cell val={r.dune} />
+                  <Cell val={r.kaito} />
+                  <Cell val={r.moonpay} />
                   <Cell val={r.bs} highlight />
                 </tr>
               ))}
             </tbody>
           </table>
+          <p className="text-center text-[13px] text-muted mt-6 italic">Competitive comparison matrix</p>
         </div>
       </div>
     </section>

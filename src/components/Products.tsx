@@ -11,8 +11,11 @@ const products = [
       'Natural language query engine',
     ],
     arrowColor: 'text-violet',
-    btnClass: 'border-violet/20 text-violet hover:bg-violet/10',
     highlight: false,
+    links: [
+      { label: 'View Demo', href: 'https://blocksight.dev/', type: 'primary' },
+      { label: 'Credit Scoring', type: 'coming-soon' },
+    ],
   },
   {
     badge: 'Payments',
@@ -26,8 +29,10 @@ const products = [
       'Sub-3s settlement — already live in production',
     ],
     arrowColor: 'text-accent',
-    btnClass: 'border-accent/20 text-accent hover:bg-accent/10',
     highlight: false,
+    links: [
+      { label: 'View Demo', href: 'https://karratshop.com/', type: 'primary' },
+    ],
   },
   {
     badge: 'Engagent',
@@ -41,9 +46,9 @@ const products = [
       'Programmable triggers — composable into any dApp',
     ],
     arrowColor: 'text-green',
-    btnClass: 'border-green/20 text-green hover:bg-green/10',
     highlight: true,
-    isNew: true,
+    comingSoon: true,
+    links: [],
   },
 ]
 
@@ -76,29 +81,53 @@ export default function Products() {
                 <span className={`font-mono text-[10px] font-semibold tracking-[1.5px] uppercase px-2.5 py-1 rounded border ${prod.badgeClass}`}>
                   {prod.badge}
                 </span>
-                {prod.isNew && (
-                  <span className="text-[8px] font-bold tracking-wider uppercase px-1.5 py-0.5 bg-green text-black rounded">NEW</span>
+                {prod.comingSoon && (
+                  <span className="text-[9px] font-bold tracking-wider uppercase px-2 py-0.5 bg-amber/90 text-black rounded">Coming Soon</span>
                 )}
               </div>
 
               <h3 className="text-lg font-semibold mb-2.5 leading-snug">{prod.title}</h3>
-              <p className="text-sm text-body leading-[1.7] mb-5">{prod.desc}</p>
+              <p className="text-sm text-body leading-[1.7] mb-6">{prod.desc}</p>
 
-              <div className="flex flex-col gap-2 mt-auto">
+              <div className="flex flex-col gap-3 mb-8">
                 {prod.features.map((f, j) => (
-                  <div key={j} className="flex items-start gap-2 text-[13px] text-body leading-relaxed">
-                    <span className={`font-bold shrink-0 mt-px ${prod.arrowColor}`}>→</span>
+                  <div key={j} className="flex items-start gap-2.5 text-[13px] text-body leading-relaxed">
+                    <span className={`font-bold shrink-0 mt-[2px] ${prod.arrowColor}`}>→</span>
                     {f}
                   </div>
                 ))}
               </div>
 
-              <a
-                href="#contact"
-                className={`inline-flex items-center gap-1.5 mt-5 px-5 py-2.5 rounded-lg font-mono text-xs font-semibold tracking-wide border bg-bg transition-all hover:-translate-y-px self-start ${prod.btnClass}`}
-              >
-                View Demo <span className="opacity-50">→</span>
-              </a>
+              <div className="flex flex-col gap-2.5 mt-auto pt-6 border-t border-line">
+                {prod.links && prod.links.length > 0 ? (
+                  prod.links.map((link, k) => (
+                    link.type === 'primary' ? (
+                      <a
+                        key={k}
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-between w-full px-4 py-3 rounded-lg text-[13px] font-medium border border-line-strong bg-bg-surface text-heading hover:bg-bg hover:border-accent/30 transition-all group"
+                      >
+                        {link.label}
+                        <span className="text-muted group-hover:text-accent transition-colors">→</span>
+                      </a>
+                    ) : (
+                      <div
+                        key={k}
+                        className="inline-flex items-center justify-between w-full px-4 py-3 rounded-lg text-[13px] font-medium border border-line bg-bg-elevated text-muted"
+                      >
+                        {link.label}
+                        <span className="text-[10px] uppercase font-semibold tracking-wider text-amber">Soon</span>
+                      </div>
+                    )
+                  ))
+                ) : prod.comingSoon ? (
+                  <div className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg text-[13px] font-medium border border-line bg-bg-elevated text-muted">
+                    Coming Soon
+                  </div>
+                ) : null}
+              </div>
             </div>
           ))}
         </div>

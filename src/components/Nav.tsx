@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
+import Image from 'next/image'
 
 const links = [
   { href: '#engagent', label: 'Engagent' },
@@ -16,12 +17,7 @@ export default function Nav() {
   return (
     <nav className="fixed inset-x-0 top-0 z-50 h-14 flex items-center justify-between px-6 md:px-12 bg-bg/90 backdrop-blur-xl border-b border-line">
       <a href="#" className="flex items-center gap-2">
-        <div className="w-6 h-6 rounded bg-accent grid grid-cols-2 grid-rows-2 gap-[2px] p-1">
-          <span className="rounded-[1.5px] bg-white" />
-          <span className="rounded-[1.5px] bg-white/55" />
-          <span className="rounded-[1.5px] bg-white/55" />
-          <span className="rounded-[1.5px] bg-white/25" />
-        </div>
+        <Image src="/BlockSightLogo.webp" alt="BlockSight" width={24} height={24} className="rounded" />
         <span className="font-mono text-sm font-semibold tracking-tight text-heading">BlockSight</span>
       </a>
 

@@ -31,7 +31,7 @@ export default function Hero() {
 
         {/* CTAs */}
         <div className="flex gap-3.5 mb-[72px] flex-col sm:flex-row">
-          <a href="#contact" className="inline-flex items-center gap-2 px-7 py-3 rounded-lg text-sm font-semibold bg-green text-black hover:opacity-90 hover:-translate-y-px transition-all">
+          <a href="mailto:partnerships@engagent.nl" className="inline-flex items-center gap-2 px-7 py-3 rounded-lg text-sm font-semibold bg-green text-black hover:opacity-90 hover:-translate-y-px transition-all">
             Get Early Access <span className="opacity-60">→</span>
           </a>
           <a href="#products" className="inline-flex items-center gap-2 px-7 py-3 rounded-lg text-sm font-semibold text-body border border-line-strong hover:border-green/20 hover:text-heading transition-all">

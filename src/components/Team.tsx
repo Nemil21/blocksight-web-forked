@@ -1,20 +1,22 @@
+import Image from 'next/image'
+
 const team = [
   {
-    initials: 'S',
     name: 'Stefano',
     role: 'Co-Founder · CTO',
+    photo: '/StefanoVercesi.png',
     bio: '10 years in software engineering. Multiple bootstrapped products. Three years deep in blockchain development, smart contract architecture, and on-chain payment systems.',
   },
   {
-    initials: 'DM',
     name: 'Devon Martens',
     role: 'Co-Founder · CEO',
+    photo: '/DevonMartens.webp',
     bio: 'Architected AI-driven trading engines managing $50M+ in liquidity. Led Studio Chain, a Layer 2 for adaptive game economies. Unites blockchain commerce, ML, and decentralized reasoning.',
   },
   {
-    initials: 'PM',
     name: 'Dr. Petrus C. Martens',
     role: 'Co-Founder · Chief Scientist',
+    photo: '/petrusMartens.webp',
     bio: '20+ years of NASA- and NSF-funded research in machine learning, predictive modeling, and large-scale data infrastructure. Professor at Georgia State University.',
   },
 ]
@@ -32,15 +34,23 @@ export default function Team() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 border border-line rounded-xl overflow-hidden">
+        <div className="grid md:grid-cols-3 gap-6 md:gap-8">
           {team.map((t, i) => (
-            <div key={i} className={`p-8 bg-bg-elevated ${i < team.length - 1 ? 'border-b md:border-b-0 md:border-r border-line' : ''}`}>
-              <div className="w-11 h-11 rounded-[10px] bg-accent/10 border border-accent/20 flex items-center justify-center font-mono text-[15px] font-semibold text-accent mb-5">
-                {t.initials}
+            <div key={i} className="group flex flex-col bg-bg-surface border border-line rounded-2xl p-4 hover:border-line-strong hover:bg-bg-elevated transition-all duration-300">
+              <div className="w-full aspect-square rounded-xl overflow-hidden mb-6 bg-bg-elevated relative border border-line/50">
+                <Image
+                  src={t.photo}
+                  alt={t.name}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
               </div>
-              <h4 className="text-[15px] font-semibold mb-0.5">{t.name}</h4>
-              <div className="text-xs text-accent font-medium mb-3.5">{t.role}</div>
-              <p className="text-[13px] text-body leading-relaxed">{t.bio}</p>
+              <div className="px-2 pb-2">
+                <h4 className="text-[17px] font-semibold mb-1 text-heading">{t.name}</h4>
+                <div className="font-mono text-[12px] text-accent mb-4">{t.role}</div>
+                <p className="text-[14px] text-body leading-relaxed font-light">{t.bio}</p>
+              </div>
             </div>
           ))}
         </div>
